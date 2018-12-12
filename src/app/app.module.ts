@@ -10,6 +10,9 @@ import { MenuComponent } from './menu/menu.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { BooklistComponent } from './book/booklist/booklist.component';
 import { StarsComponent } from './stars/stars.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { Error404Component } from './error404/error404.component';
+import { BookformComponent } from './book/bookform/bookform.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +24,9 @@ import { StarsComponent } from './stars/stars.component';
     SidebarComponent,
     BooklistComponent,
     StarsComponent,
+    DashboardComponent,
+    Error404Component,
+    BookformComponent,
   ],
   imports: [
     BrowserModule,

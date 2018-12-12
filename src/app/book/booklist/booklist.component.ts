@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-booklist',
@@ -9,7 +10,7 @@ export class BooklistComponent implements OnInit {
 
   private mBooks : Array<Book>
 
-  constructor() { 
+  constructor(public router : Router) { 
   }
 
   ngOnInit() {
@@ -23,6 +24,14 @@ export class BooklistComponent implements OnInit {
       new Book(7, "ASP.NET Book 7", 73.45, 2, "A book for ASP.NET", ["Internet"]),
       new Book(8, "Testing Book 8", 83.45, 3.5, "A book for Testing", ["Internet" , "IT"]),
     ]
+  }
+
+  create() {
+    this.router.navigateByUrl('/dashboard')
+  }
+
+  modify(book : Book) {
+    this.router.navigateByUrl('/bookdetail/' + book.id)
   }
 }
 
