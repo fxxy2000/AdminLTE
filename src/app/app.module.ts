@@ -14,6 +14,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { Error404Component } from './error404/error404.component';
 import { BookformComponent } from './book/bookform/bookform.component';
 import { BookService } from './book/book.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BookfilterPipe } from './book/bookfilter.pipe';
 
 @NgModule({
   declarations: [
@@ -28,10 +30,13 @@ import { BookService } from './book/book.service';
     DashboardComponent,
     Error404Component,
     BookformComponent,
+    BookfilterPipe,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [BookService],
   bootstrap: [AppComponent]
