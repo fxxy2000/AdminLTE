@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Book } from '../booklist/booklist.component';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { BookService, Book } from '../book.service';
 
 @Component({
   selector: 'app-bookform',
@@ -11,10 +11,18 @@ export class BookformComponent implements OnInit {
 
   private mBook : Book
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private router: Router, private bookService : BookService) { }
 
   ngOnInit() {
-    this.mBook = new Book(1, 'test name', 12.34, 3, 'test desc', ['test categories'])
+    let id = this.route.snapshot.params['id'];
+    this.mBook = this.bookService.getBookById(id);
   }
 
+  cancel() {
+    this.router.navigateByUrl('/booklist');
+  }
+
+  save() {
+    this.router.navigateByUrl('/booklist');
+  }
 }

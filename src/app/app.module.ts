@@ -13,6 +13,7 @@ import { StarsComponent } from './stars/stars.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { Error404Component } from './error404/error404.component';
 import { BookformComponent } from './book/bookform/bookform.component';
+import { BookService } from './book/book.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,7 @@ import { BookformComponent } from './book/bookform/bookform.component';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [BookService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

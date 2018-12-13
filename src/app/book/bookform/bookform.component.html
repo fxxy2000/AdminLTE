@@ -1,3 +1,57 @@
-<p>
-  {{mBook.name}}
-</p>
+<div class="box box-info">
+  <div class="box-header with-border">
+    <h3 class="box-title">Book Detail</h3>
+  </div>
+  <!-- /.box-header -->
+  <!-- form start -->
+  <form class="form-horizontal">
+    <div class="box-body">
+      <div class="form-group">
+        <label for="inputBookName" class="col-sm-2 control-label">Book Name</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputBookName" placeholder="Book Name" value="{{mBook.name}}">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputBookPrice" class="col-sm-2 control-label">Book Price</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputBookPrice" placeholder="Book Price" value="{{mBook.price}}">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="appStars" class="col-sm-2 control-label">Book Rating</label>
+        <div class="col-sm-10">
+          <app-stars class="form-control no-border" [mRating] = "mBook.rating"></app-stars>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="textBookDesc" class="col-sm-2 control-label">Book Description</label>
+        <div class="col-sm-10">
+          <textarea class="form-control" id="textBookDesc" placeholder="Book Description">{{mBook.desc}}</textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="checkbox" class="col-sm-2 control-label">Book Category</label>
+        <div class="col-sm-10">
+          <div id="checkbox" class="checkbox">
+            <label>
+              <input type="checkbox"> IT
+            </label>&nbsp;
+            <label>
+              <input type="checkbox"> Financial
+            </label>&nbsp;
+            <label>
+              <input type="checkbox"> Internet
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer">
+      <button type="submit" class="btn btn-default" (click)="cancel()">Cancel</button>
+      <button type="submit" class="btn btn-info pull-right" (click)="save()">Save</button>
+    </div>
+    <!-- /.box-footer -->
+  </form>
+</div>
