@@ -4,53 +4,55 @@
   </div>
   <!-- /.box-header -->
   <!-- form start -->
-  <form class="form-horizontal">
+  <form class="form-horizontal" [formGroup]="formModule">
     <div class="box-body">
-      <div class="form-group">
+      <div class="form-group" [class.has-error]="formModule.get('bookName').touched && (formModule.hasError('required', 'bookName') || formModule.hasError('minlength', 'bookName'))">
         <label for="inputBookName" class="col-sm-2 control-label">Book Name</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="inputBookName" placeholder="Book Name" [attr.value]="mBook.name">
+          <input type="text" class="form-control" formControlName="bookName" id="inputBookName" placeholder="Book Name">
+          <p class="help-block" [class.hidden]="formModule.get('bookName').untouched || !formModule.hasError('required', 'bookName')">Book name cannot be empty</p>
+          <p class="help-block" [class.hidden]="!formModule.hasError('minlength', 'bookName')">Book name must be at least 3 characters</p>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group" [class.has-error]="formModule.get('bookPrice').touched && formModule.hasError('required', 'bookPrice')">
         <label for="inputBookPrice" class="col-sm-2 control-label">Book Price</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="inputBookPrice" placeholder="Book Price" [attr.value]="mBook.price">
+          <input type="number" class="form-control" formControlName="bookPrice" id="inputBookPrice" placeholder="Book Price">
+          <p class="help-block" [class.hidden]="formModule.get('bookPrice').untouched || !formModule.hasError('required', 'bookPrice')">Book price cannot be empty</p>
         </div>
       </div>
       <div class="form-group">
         <label for="appStars" class="col-sm-2 control-label">Book Rating</label>
-        <div class="col-sm-10">
-          <app-stars class="form-control no-border" [mRating] = "rating" [isReadOnly]="false" (newRating)="updateRating($event)"></app-stars>
+        <div class="col-sm-10" style="margin-top : 8px;">
+          <app-stars [mRating]="rating" [isReadOnly]="false" (newRating)="updateRating($event)"></app-stars>
         </div>
       </div>
       <div class="form-group">
         <label for="textBookDesc" class="col-sm-2 control-label">Book Description</label>
         <div class="col-sm-10">
-          <textarea class="form-control" id="textBookDesc" placeholder="Book Description">{{mBook.desc}}</textarea>
+          <textarea class="form-control" formControlName="bookDesc" id="textBookDesc" placeholder="Book Description"></textarea>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group" [class.has-error]="formModule.get('bookCategory').dirty && formModule.hasError('categories', 'bookCategory')">
         <label for="checkbox" class="col-sm-2 control-label">Book Category</label>
         <div class="col-sm-10">
-          <div id="checkbox" class="checkbox">
-            <label>
-              <input type="checkbox" [checked]="mBook.categories.includes('IT')"> IT
-            </label>&nbsp;
-            <label>
-              <input type="checkbox" [checked]="mBook.categories.includes('Financial')"> Financial
-            </label>&nbsp;
-            <label>
-              <input type="checkbox" [checked]="mBook.categories.includes('Internet')"> Internet
-            </label>
+          <div class="row" formArrayName="bookCategory">
+            <div id="checkbox" *ngFor="let category of categories; let i=index;" class="col-sm-2">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" [formControlName]="i">{{category}}
+                </label>
+              </div>
+            </div>
           </div>
+          <p class="help-block" [class.hidden]="formModule.get('bookCategory').pristine || !formModule.hasError('categories', 'bookCategory')">Book category must be selected at least one</p>
         </div>
       </div>
     </div>
     <!-- /.box-body -->
     <div class="box-footer">
-      <button type="submit" class="btn btn-default" (click)="cancel()">Cancel</button>
-      <button type="submit" class="btn btn-info pull-right" (click)="save()">Save</button>
+      <button type="cancel" class="btn btn-default" (click)="cancel()">Cancel</button>
+      <button type="submit" class="btn btn-info pull-right" (click)="save()" [disabled]="!formModule.valid">Save</button>
     </div>
     <!-- /.box-footer -->
   </form>
