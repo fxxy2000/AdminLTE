@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { BookService, Book } from '../book.service';
+import { BookService} from '../book.service';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 
 @Component({
@@ -12,27 +12,41 @@ export class BookformComponent implements OnInit {
 
   private formModule : FormGroup;
   private categories = ['IT', 'Financial', 'Internet'];
-  private mBook : Book;
-  private rating : number;
+  private mBook : any;
+  private rating : number = 0;
 
   constructor(private route: ActivatedRoute, private router: Router, private bookService : BookService) { }
 
   ngOnInit() {
     let id = this.route.snapshot.params['id'];
-    this.mBook = this.bookService.getBookById(id);
-    this.rating = this.mBook.rating;
-
+    this.mBook = {id:0, name: "", price: null, desc: "", categories: []}
     let formBuilder = new FormBuilder();
     this.formModule = formBuilder.group({
       bookName : [this.mBook.name, [Validators.required, Validators.minLength(3)]],
       bookPrice : [this.mBook.price, [Validators.required]],
       bookDesc : [this.mBook.desc],
       bookCategory : formBuilder.array([
-        [this.mBook.categories.includes(this.categories[0])],
-        [this.mBook.categories.includes(this.categories[1])],
-        [this.mBook.categories.includes(this.categories[2])]
+        [false], [false], [false]
       ], categoryValidator)
     });
+
+    if(id != 0) {
+      let result = this.bookService.getBookById(id);
+      result.subscribe(data => {
+        this.mBook = data;
+        this.rating = this.mBook.rating;
+        this.formModule.reset({
+          bookName: this.mBook.name,
+          bookPrice : this.mBook.price,
+          bookDesc : this.mBook.desc,
+          bookCategory : [
+            this.mBook.categories.includes(this.categories[0]),
+            this.mBook.categories.includes(this.categories[1]),
+            this.mBook.categories.includes(this.categories[2])
+          ]
+        });
+      });
+    }
   }
 
   updateRating(newRating : number) {
@@ -71,7 +85,10 @@ export class BookformComponent implements OnInit {
       this.mBook.categories = newCategories;
     }
 
-    this.router.navigateByUrl('/booklist');
+    this.bookService.createOrUpdateBook(this.mBook).subscribe(
+      ()=> {
+        this.router.navigateByUrl('/booklist');
+      });
   }
 }
 

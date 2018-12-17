@@ -21,14 +21,14 @@
         <th>Rating</th>
         <th>Action</th>
       </tr>
-      <tr *ngFor="let book of mBooks | bookfilter : 'name' : mKeywords ; let i=index;">
+      <tr *ngFor="let book of mBooks | async |bookfilter : 'name' : mKeywords ; let i=index;">
         <td>{{i+1}}</td>
         <td>{{book.name}}</td>
         <td>{{book.price}}</td>
         <td><app-stars [mRating] = "book.rating"></app-stars></td>
         <td>
           <a class="btn btn-warning btn-xs" (click)="modify(book)"><span class="glyphicon glyphicon-pencil"></span>Modify</a>&nbsp;
-          <a class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span>Delete</a>
+          <a class="btn btn-danger btn-xs" (click)="delete(book)"><span class="glyphicon glyphicon-remove"></span>Delete</a>
         </td>
       </tr>
     </table>

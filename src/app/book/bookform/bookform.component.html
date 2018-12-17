@@ -6,7 +6,7 @@
   <!-- form start -->
   <form class="form-horizontal" [formGroup]="formModule">
     <div class="box-body">
-      <div class="form-group" [class.has-error]="formModule.get('bookName').touched && (formModule.hasError('required', 'bookName') || formModule.hasError('minlength', 'bookName'))">
+      <div class="form-group" [class.has-error]="(formModule.get('bookName').touched || formModule.get('bookName').dirty)&& (formModule.hasError('required', 'bookName') || formModule.hasError('minlength', 'bookName'))">
         <label for="inputBookName" class="col-sm-2 control-label">Book Name</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" formControlName="bookName" id="inputBookName" placeholder="Book Name">

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Book, BookService } from '../book.service';
+import { BookService } from '../book.service';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-booklist',
@@ -11,7 +12,7 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class BooklistComponent implements OnInit {
 
-  private mBooks : Array<Book>;
+  private mBooks : Observable<any>;
   private mFilter : FormControl;
   private mKeywords : string;
 
@@ -24,7 +25,11 @@ export class BooklistComponent implements OnInit {
     this.mFilter.valueChanges
       .pipe(debounceTime(500))
       .subscribe(value => {
-        this.mKeywords = value;
+        if(value) {
+          this.mBooks = this.bookService.searchBookByName(value);
+        } else {
+          this.mBooks = this.bookService.getBooks();
+        }
       });
   }
 
@@ -32,11 +37,18 @@ export class BooklistComponent implements OnInit {
     this.router.navigateByUrl('/bookdetail/0')
   }
 
-  modify(book : Book) {
+  modify(book : any) {
     this.router.navigateByUrl('/bookdetail/' + book.id)
   }
 
-  onKeyUp(searchName : string) {
-    
+  delete(book : any) {
+    this.bookService.deleteBookById(book.id).subscribe(
+      () => {
+        this.mBooks = this.bookService.getBooks();
+      }, 
+      error => {
+        console.log(error)
+      }
+    );
   }
 }

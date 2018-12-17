@@ -16,6 +16,8 @@ import { BookformComponent } from './book/bookform/bookform.component';
 import { BookService } from './book/book.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BookfilterPipe } from './book/bookfilter.pipe';
+import { HttpClientModule } from '@angular/common/http';
+import { SseService } from './sse.service';
 
 @NgModule({
   declarations: [
@@ -36,9 +38,10 @@ import { BookfilterPipe } from './book/bookfilter.pipe';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [BookService],
+  providers: [BookService, SseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
